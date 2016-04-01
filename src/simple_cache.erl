@@ -1,8 +1,7 @@
 -module(simple_cache).
 -export([insert/2, lookup/1, delete/1]).
 
--define(DEPS, [crypto, asn1, public_key, ssl, inets, idna, hackney,
-               restc, slacker]).
+-define(DEPS, [crypto, asn1, public_key, ssl, inets, idna, hackney, restc, slacker]).
 
 insert(Key, Value) ->
   case sc_store:lookup(Key) of 
