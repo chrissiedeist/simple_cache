@@ -5,7 +5,6 @@
 -define(DEPS, [crypto, asn1, public_key, ssl, inets, idna, hackney, restc]).
 
 start() ->
-  [application:start(A) || A <- ?DEPS],
   sc_store:init(),
   case sc_sup:start_link() of 
     {ok, Pid} ->
@@ -15,6 +14,7 @@ start() ->
   end.
 
 start(_StartType, _StartArgs) ->
+  [application:start(A) || A <- ?DEPS],
   sc_store:init(),
   case sc_sup:start_link() of 
     {ok, Pid} ->

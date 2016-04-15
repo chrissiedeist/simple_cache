@@ -1,7 +1,5 @@
 -module(simple_cache).
--export([insert/2, lookup/1, delete/1]).
-
--define(DEPS, [crypto, asn1, public_key, ssl, inets, idna, hackney, restc, slacker]).
+-export([insert/2, lookup/1, delete/1, connect/0]).
 
 insert(Key, Value) ->
   case sc_store:lookup(Key) of 
@@ -29,4 +27,15 @@ delete(Key) ->
     {error, _Reason} ->
       ok
   end.
+
+connect(Token) ->
+  Endpoint = "rtm.start",
+  io:format("Hello, world!~n"),
+  { ok, Status, Metadata, Response} = slacker_request:send("rtm.start", [{"token",
+                                                         Token}]),
+  [Url | _ ] = [X || { <<"url">>, X } <- Response ],
+  ActualUrl = binary_to_list(Url),
+  io:format(ActualUrl),
+
+  ws_handler:start_link(ActualUrl).
 
