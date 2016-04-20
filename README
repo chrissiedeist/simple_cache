@@ -1,0 +1,8 @@
+# Simple Cache
+
+A simple caching application based off of an exercise in 
+`Erlang and OTP in Action` by Martin Logan, Eric Merritt, and Richard
+Carlsson.
+
+In the process of integrating with Slack to read data from many
+channels concurrently, as an exercise in understanding Erlang processes.
