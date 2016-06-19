@@ -1,5 +1,6 @@
 -module(simple_cache).
--export([insert/2, lookup/1, delete/1, connect/0]).
+-export([insert/2, lookup/1, delete/1, connectRTM/1, setStatus/2,
+         setActive/1]).
 
 insert(Key, Value) ->
   case sc_store:lookup(Key) of 
@@ -28,14 +29,21 @@ delete(Key) ->
       ok
   end.
 
-connect(Token) ->
+connectRTM(Token) ->
   Endpoint = "rtm.start",
   io:format("Hello, world!~n"),
   { ok, Status, Metadata, Response} = slacker_request:send("rtm.start", [{"token",
                                                          Token}]),
+  io:format("response ~p~n", [Response]),
   [Url | _ ] = [X || { <<"url">>, X } <- Response ],
   ActualUrl = binary_to_list(Url),
-  io:format(ActualUrl),
+  %% io:format(ActualUrl),
 
   ws_handler:start_link(ActualUrl).
+
+setStatus(Token, Status) ->
+  slacker_user:set_presence(Token, Status).
+
+setActive(Token) ->
+  slacker_user:set_active(Token).
 

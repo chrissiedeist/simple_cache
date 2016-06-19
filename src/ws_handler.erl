@@ -32,6 +32,9 @@ websocket_handle({ping, _Msg}, _ConnState, State) ->
 
 websocket_handle({text, Msg}, _ConnState, State) ->
   io:format("Received msg ~p~n", [Msg]),
+
+  { A, _ } = Msg,
+  io:format("From channel ~p~n", [A]),
   {ok, State};
 
 websocket_handle({binary, _Msg}, _ConnState, State) ->
